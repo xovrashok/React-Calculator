@@ -8,6 +8,8 @@ import {
   ButtonDel,
   Button,
 } from "./style";
+import palette from './palette';
+import DeleteIcon from "./delete";
 
 class App extends React.Component {
   constructor(props) {
@@ -42,7 +44,14 @@ class App extends React.Component {
     } else if (value === "C") {
       output.value = 0;
     } else if (value === "=") {
-      output.value = eval(output.value);
+      try {
+        output.value = eval(output.value);
+      } catch (e) {
+        output.value = "Error";
+        setTimeout(() => {
+          output.value = 0;
+        }, 1500);
+      }
     }
   }
 
@@ -55,31 +64,25 @@ class App extends React.Component {
             type="text"
             defaultValue={this.state.out}
           />
-          {store.operations.map((item) => (
-            <ButtonDel
-              key={item.value}
-              onClick={() => {
-                this.clickButtonOperations(item.value);
-              }}
-            >
-              <img src="./delete.png" alt="del" />
-            </ButtonDel>
-          ))}
+          <ButtonDel
+            onClick={() => {
+              this.clickButtonOperations("del");
+            }}
+          >
+            <DeleteIcon />
+          </ButtonDel>
         </InputPosition>
         <OutPut>
-          {store.operation.map((item) => (
+          <Button
+            onClick={() => {
+              this.clickButtonOperations("C");
+            }}
+          >
+            C
+          </Button>
+          {store.buttons.map((item, index) => (
             <Button
-              key={item.value}
-              onClick={() => {
-                this.clickButtonOperations(item.value);
-              }}
-            >
-              {item.value}
-            </Button>
-          ))}
-          {store.buttons.map((item) => (
-            <Button
-              key={item.value}
+              key={index}
               onClick={() => {
                 this.clickButton(item.value);
               }}
@@ -87,16 +90,14 @@ class App extends React.Component {
               {item.value}
             </Button>
           ))}
-          {store.ravno.map((item) => (
-            <Button
-              key={item.value}
-              onClick={() => {
-                this.clickButtonOperations(item.value);
-              }}
-            >
-              {item.value}
-            </Button>
-          ))}
+          <Button
+            onClick={() => {
+              this.clickButtonOperations("=");
+            }}
+            style={{ backgroundColor: `${palette.orange}` }}
+          >
+            =
+          </Button>
         </OutPut>
       </Container>
     );

@@ -19,15 +19,6 @@ let store = {
     { value: "0" },
     { value: "," },
   ],
-  operations: [
-    { value: "del"},
-  ],
-  operation: [
-    { value: "C" },
-  ],
-  ravno: [
-    { value: "=" },
-  ]
 };
 
 export default store;
